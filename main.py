@@ -1,69 +1,89 @@
-from random import randint
 
-def stringToList(frase):
-    lista = []
-    for letra in frase:
-        lista.append(letra)
-    return lista
+# Orientação a objeto   ------------------------------------  Orientação a objetos ---------------------------------------------------------------
 
-def newList(lista):
-    result = []
-    for elem in lista:
-        result.append("0")
-    return result
+from Nave import Nave
 
-def getStringFromLista(lista):
-    frase = ""
-    for letra in lista:
-        frase += letra
-    return frase
+milleniumFalcon = Nave("Ran Solo")
 
-def embaralhar(frase):
-    listaFrase = stringToList(frase)
-    newFrase = newList(frase)
-    for letra in listaFrase:
-        posicaoValida = True
-        while posicaoValida:
-            posicaoAux = randint(0,len(listaFrase)-1)
-            if newFrase[posicaoAux] == "0":
-                newFrase[posicaoAux] = letra
-                posicaoValida = False
-    return getStringFromLista(newFrase)
+print(milleniumFalcon.piloto)
 
-def desembaralhar(fraseOriginal,fraseEmbaralhada):
-    listaFraseEmbaralhada = stringToList(fraseEmbaralhada)
-    newLista = newList(fraseOriginal)
-    for posicao in range(len(fraseOriginal)):
-        continua = True
-        while continua:
-            posicaoAux = randint(0,len(fraseOriginal)-1)
-            if fraseOriginal[posicao] == listaFraseEmbaralhada[posicaoAux]:
-                newLista[posicao] = listaFraseEmbaralhada[posicaoAux]
-                listaFraseEmbaralhada[posicaoAux] = "0"
-                continua = False
-    return getStringFromLista(newLista)
+print(milleniumFalcon.estado)
 
-print("")
+milleniumFalcon.decolar()
 
-frase = input("informe a frase: ")
+print(milleniumFalcon.estado)
 
-print("")
 
-print("frase original: "+ frase)
 
-aux = embaralhar(frase)
 
-print("")
+#  funçoes   --------------------------------------------------  funçoes --------------------------------------------------------------------------
 
-print("frase embaralhada: "+aux)
+# from random import randint
 
-aux2 = desembaralhar(frase,aux)
+# def stringToList(frase):
+#     lista = []
+#     for letra in frase:
+#         lista.append(letra)
+#     return lista
 
-print("")
+# def newList(lista):
+#     result = []
+#     for elem in lista:
+#         result.append("0")
+#     return result
 
-print("frase desembaralhada: "+aux2)
+# def getStringFromLista(lista):
+#     frase = ""
+#     for letra in lista:
+#         frase += letra
+#     return frase
 
-print("")
+# def embaralhar(frase):
+#     listaFrase = stringToList(frase)
+#     newFrase = newList(frase)
+#     for letra in listaFrase:
+#         posicaoValida = True
+#         while posicaoValida:
+#             posicaoAux = randint(0,len(listaFrase)-1)
+#             if newFrase[posicaoAux] == "0":
+#                 newFrase[posicaoAux] = letra
+#                 posicaoValida = False
+#     return getStringFromLista(newFrase)
+
+# def desembaralhar(fraseOriginal,fraseEmbaralhada):
+#     listaFraseEmbaralhada = stringToList(fraseEmbaralhada)
+#     newLista = newList(fraseOriginal)
+#     for posicao in range(len(fraseOriginal)):
+#         continua = True
+#         while continua:
+#             posicaoAux = randint(0,len(fraseOriginal)-1)
+#             if fraseOriginal[posicao] == listaFraseEmbaralhada[posicaoAux]:
+#                 newLista[posicao] = listaFraseEmbaralhada[posicaoAux]
+#                 listaFraseEmbaralhada[posicaoAux] = "0"
+#                 continua = False
+#     return getStringFromLista(newLista)
+
+# print("")
+
+# frase = input("informe a frase: ")
+
+# print("")
+
+# print("frase original: "+ frase)
+
+# aux = embaralhar(frase)
+
+# print("")
+
+# print("frase embaralhada: "+aux)
+
+# aux2 = desembaralhar(frase,aux)
+
+# print("")
+
+# print("frase desembaralhada: "+aux2)
+
+# print("")
 
 
 
