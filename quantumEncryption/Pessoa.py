@@ -103,18 +103,27 @@ class Pessoa():
             if sendBits[I] != -1:
                 sendBits[I] = -1
                 iHBits += 1
+        s=False
         I=0
-        while I<iHBits//3:
+        if iHBits//3 < 1:
+            s=True
+        while I<iHBits//3 or s:
             aux = randint(0,len(myBits)-1)
             if myBits[aux] != -1:
+                if s:
+                    sendBits[aux] = myBits[aux]
+                    self.bits[aux] = -1
+                    return sendBits
                 sendBits[aux] = myBits[aux]
                 self.bits[aux] = -1
                 I+=1
+        print("sendbits",sendBits)
         return sendBits
 
     def revisaBit(self,bits):
         for I in range(len(self.bits)):
             if(self.bits[I] != bits[I] and bits[I] != -1):
+                self.bits[I] = -1
                 return False
         return True
 
@@ -123,8 +132,4 @@ class Pessoa():
         for I in range(len(self.bits)):
             if(self.bits[I] != -1):
                 sBits.append(self.bits[I])
-        return sBits
-
-    # def lerQubits(self,qubits,bases):
-    #     for I in range(bases):
-    #         self.bits = 
+        return sBits 

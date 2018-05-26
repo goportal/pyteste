@@ -2,7 +2,7 @@ from random import randint
 from Pessoa import Pessoa
 from Canal import Canal
 
-# TODO implementar perda no canal
+# TODO implementar perda no canal ver %
 
 bob = Pessoa("bob")
 alice = Pessoa("alice")
@@ -34,8 +34,6 @@ print("bits alice: ",alice.bits)
 print("bases enviadas para revisao: ",bob.revisaBase(alice.enviaBaseRevisao()))
 alice.recebeRevisaBase(bob.revisaBase(alice.enviaBaseRevisao()))
 print("bits alice revisados: ",alice.bits)
-
-print("bits para revisao: ",alice.enviaBitRevisao())
 
 if bob.revisaBit(alice.enviaBitRevisao()):
     print("bits compartilhados seguramente")
