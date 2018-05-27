@@ -2,13 +2,13 @@ from random import randint
 from Pessoa import Pessoa
 from Canal import Canal
 
-# bug de quando adiciona eve em quantia pequena e da resultado positivo
+# TODO verbose do e91 e do coin
 
 def bb84():
     # leitura de dados
     nQubits = input("Quantos qubits? ")
     onEve = input("Com eve? 1-T 0-F ")
-    verbose = input("Exibicao completa? 1-T 0-F")
+    verbose = input("Exibicao completa? 1-T 0-F ")
     print("")
 
     # instancia de pessoas 
@@ -74,20 +74,124 @@ def bb84():
         raw_input("")
 
     # bob verifica os bits enviados por alice
-    if verbose == 1:
-        if bob.revisaBit(bitsRevisao):
-            print("bits compartilhados de modo seguro")
-            print("bits secretos com alice",alice.bitsSecretos())
-            print("bits secretos com bob",bob.bitsSecretos())
-        else:
-            print("alguem interceptou os bits!")
-            print("bits com alice",alice.bitsSecretos())
-            print("bits com bob",bob.bitsSecretos())
+    
+    if bob.revisaBit(bitsRevisao):
+        print("bits compartilhados de modo seguro")
+        print("bits secretos com alice",alice.bitsSecretos())
+        print("bits secretos com bob",bob.bitsSecretos())
     else:
-        if bob.revisaBit(bitsRevisao):
-            print("bits compartilhados de modo seguro")
-            print("bits secretos",bob.bitsSecretos())
-        else:
-            print("alguem interceptou os bits!")
+        print("alguem interceptou os bits!")
+        print("bits com alice",alice.bitsSecretos())
+        print("bits com bob",bob.bitsSecretos())
+    
 
-bb84()
+def e91():
+    # leitura de valores
+    nQubits = input("Quantos qubits? ")
+    onEve = input("Com eve? 1-T 0-F ")
+    verbose = input("Exibicao completa? 1-T 0-F ")
+    print("")
+
+    # cria unidade que gera o spin singleto e os canais, e distribui o spin
+    fulano = Pessoa("fulano")
+    fulano.geraBasesAleatorias(nQubits)
+    fulano.geraBitsAleatorios(nQubits)
+    spin = fulano.geraSpinSingleto()
+
+    canal1 = Canal(spin[0])
+    canal2 = Canal(spin[1])
+
+    print("spin1",spin[0])
+    print("spin2",spin[1])
+    raw_input("")
+
+    # se a eve observar o canal gera as bases de eve e le os qubits de um canal aleatorio
+    if onEve == 1:
+        eve = Pessoa("eve")
+        eve.geraBasesAleatorias(nQubits)
+        eve.lerQubits(canal1.getQubits())
+        print("bits que eve leu",eve.bits)
+        raw_input("")
+     
+    
+    # gera bases aleatorias de alice e bob
+    alice = Pessoa("alice")
+    bob = Pessoa("bob")
+    alice.geraBasesAleatorias(nQubits)
+    bob.geraBasesAleatorias(nQubits)
+
+    print("bases de bob",bob.bases)
+    print("bases de alice",alice.bases)
+    raw_input("")
+
+    # alice e bob leem os qubits do canal
+    alice.lerQubits(canal1.getQubits())
+    bob.lerQubits(canal2.getQubits())
+
+    print("bits de bob",bob.bits)
+    print("bits de alice",alice.bits)
+    raw_input("")
+
+    print("bob envia bases para revisao",bob.enviaBaseRevisao())
+    raw_input("")
+
+    revisAlice = alice.revisaBase(bob.enviaBaseRevisao())
+    print("alice revisa bases",revisAlice)
+    raw_input("")
+
+    bob.recebeRevisaBase(revisAlice)
+
+    print("bits de bob",bob.bits)
+    print("bits de alice",alice.bits)
+    raw_input("")
+
+    bob.inverteBits()
+    print("bob inverte os bits",bob.bits)
+    raw_input("")
+    
+    bitsRevisao = bob.enviaBitRevisao()
+    print("bob envia bits para revisao",bitsRevisao)
+    raw_input("")
+
+    if(alice.revisaBit(bitsRevisao)):
+        print("bits compartilhados de modo seguro")
+        print("bits secretos com alice",alice.bitsSecretos())
+        print("bits secretos com bob",bob.bitsSecretos())
+    else:
+        print("alguem interceptou os bits!")
+        print("bits com alice",alice.bitsSecretos())
+        print("bits com bob",bob.bitsSecretos())
+
+def coin():
+    nQubits = input("Procedimento com quantos qubits? ")
+
+    alice = Pessoa("alice")
+    bob = Pessoa("bob")
+
+    alice.geraBitsAleatorios(nQubits)
+    alice.geraUmaBaseAleatoria(nQubits)
+
+    bob.geraBasesAleatorias(nQubits)
+
+    canal = Canal(alice.enviarQubits())
+
+    tabs = alice.geraTabelaBases(canal.getQubits())
+    
+    print("tab1",tabs[0])
+    print("tab2",tabs[1])
+
+
+print("--------------------------------------------------------------")
+print("[1] bb84 ")
+print("[2] e91 ")
+print("[3] lancamento de moeda ")
+
+op = input("qual protocolo? ")
+
+if op == 1:
+    bb84()
+elif op == 2:
+    e91()
+elif op == 3:
+    coin()
+   

@@ -32,11 +32,12 @@ class Pessoa():
         elif(qubit == "rh" and base == "R"):
             return 1
         else:
-            v = randint(0,3)
-            if(v == 0): return -1
-            elif(v==1): return -1
-            elif(v==2): return 1
-            else: return 0
+            # 1/4 de qber 2/8
+            # v = randint(0,8)
+            # if(v == 0): return 1
+            # elif(v==1): return 0
+            # else: return -1
+            return -1
             
     def geraBasesAleatorias(self,nBases):
         self.bases = range(nBases)
@@ -46,6 +47,23 @@ class Pessoa():
                 self.bases[I] = "R"
             else: 
                 self.bases[I] = "D"
+
+    def geraUmaBaseAleatoria(self,nQubits):
+        b = randint(0,1)
+        if b==1:
+            for I in range(nQubits):
+                self.bases.append("R")
+        else: 
+            for I in range(nQubits):
+                self.bases.append("D")
+
+    def geraTabelaBases(self,qubits):
+        tab1 = []
+        tab2 = []
+        for I in range(len(qubits)):
+            tab1.append(self.lerQubit(qubits[I],"R"))
+            tab2.append(self.lerQubit(qubits[I],"D"))
+        return [tab1,tab2]
 
     def geraBitsAleatorios(self,nBits):
         self.bits = range(nBits)
@@ -100,6 +118,8 @@ class Pessoa():
             if sendBits[I] != -1:
                 sendBits[I] = -1
                 iHBits += 1
+        if(iHBits ==0):
+            return myBits
         s=False
         I=0
         if iHBits//3 < 1:
@@ -117,12 +137,14 @@ class Pessoa():
         return sendBits
 
     def revisaBit(self,bits):
+        valido = True
         for I in range(len(self.bits)):
             if(self.bits[I] != bits[I] and bits[I] != -1):
-                return False
+                self.bits[I] = -1
+                valido = False
             elif(self.bits[I] == bits[I]):
                 self.bits[I] = -1
-        return True
+        return valido
 
     def bitsSecretos(self):
         sBits = []
@@ -130,3 +152,21 @@ class Pessoa():
             if(self.bits[I] != -1):
                 sBits.append(self.bits[I])
         return sBits 
+
+    def inverteBits(self):
+        newBits = self.bits[:]
+        for I in range(len(self.bits)):
+            if(self.bits[I] == 1):
+                newBits[I] = 0
+            elif(self.bits[I] == 0):
+                newBits[I] = 1
+            else:
+                newBits[I] = -1
+        self.bits = newBits
+
+    def geraSpinSingleto(self):
+        v =[]
+        v.append(self.enviarQubits())
+        self.inverteBits()
+        v.append(self.enviarQubits())
+        return v

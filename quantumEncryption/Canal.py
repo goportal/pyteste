@@ -6,19 +6,21 @@ class Canal():
         self.qubits = qubits
 
     def convertQubit(self,n):
-        if(n == 0):
-            return "rd"
-        elif(n == 1):
-            return "rh"
-        elif(n == 2):
-            return "dd"
-        elif(n == 3):
-            return "de"
+        if(n == "de" or n == "dd"):
+            if(randint(0,1) == 0):
+                return "de"
+            else:
+                return "dd"
+        else:
+            if(randint(0,1) == 0):
+                return "rh"
+            else:
+                return "rv"
 
     def alteraQubits(self):
         aux = self.qubits
         for I in range(len(self.qubits)):
-            aux[I] = self.convertQubit(randint(0,3))
+            aux[I] = self.convertQubit(aux[I])
         self.qubits = aux
 
     def getQubits(self):
