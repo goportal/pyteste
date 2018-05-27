@@ -7,8 +7,6 @@ class Pessoa():
     def __init__(self,nome):
         self.nome = nome
 
-    # def lerQubits(qubit,base):
-
     # dd => diagonal direita 
     # de => diagonal esquerda 
     # rh => retilineo horizontal
@@ -42,8 +40,6 @@ class Pessoa():
             
     def geraBasesAleatorias(self,nBases):
         self.bases = range(nBases)
-        # 1 retilinea
-        # 0 diagonal
         for I in self.bases:
             aux = randint(0,1)
             if(aux == 1):
@@ -87,6 +83,7 @@ class Pessoa():
             if bases[I] == myBases[I]:
                 tBases[I] = True
             else:
+                self.bits[I] = -1
                 tBases[I] = False
         return tBases
 
@@ -117,14 +114,14 @@ class Pessoa():
                 sendBits[aux] = myBits[aux]
                 self.bits[aux] = -1
                 I+=1
-        print("sendbits",sendBits)
         return sendBits
 
     def revisaBit(self,bits):
         for I in range(len(self.bits)):
             if(self.bits[I] != bits[I] and bits[I] != -1):
-                self.bits[I] = -1
                 return False
+            elif(self.bits[I] == bits[I]):
+                self.bits[I] = -1
         return True
 
     def bitsSecretos(self):
